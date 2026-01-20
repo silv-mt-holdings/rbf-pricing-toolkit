@@ -1,0 +1,153 @@
+{
+  "_comment": "Deal Size Tiers and Paper Grade Definitions",
+  "deal_tiers": {
+    "micro": {
+      "max_amount": 50000,
+      "name": "Micro",
+      "typical_products": ["MCA", "Revenue Based"]
+    },
+    "small": {
+      "min_amount": 50001,
+      "max_amount": 150000,
+      "name": "Small",
+      "typical_products": ["MCA", "Term", "LOC"]
+    },
+    "mid": {
+      "min_amount": 150001,
+      "max_amount": 250000,
+      "name": "Mid-Size",
+      "typical_products": ["Term", "SBA Express", "LOC"]
+    },
+    "large": {
+      "min_amount": 250001,
+      "max_amount": 500000,
+      "name": "Large",
+      "typical_products": ["Term", "SBA 7(a)", "LOC"]
+    },
+    "jumbo": {
+      "min_amount": 500001,
+      "name": "Jumbo",
+      "typical_products": ["SBA 7(a)", "Conventional", "ABL"]
+    }
+  },
+  "paper_grades": {
+    "A": {
+      "name": "A Paper",
+      "min_credit": 680,
+      "min_tib_months": 24,
+      "max_nsf_90d": 2,
+      "min_avg_balance": 0.10,
+      "revenue_trend": "stable_or_growing",
+      "rate_range": "1.15 - 1.25 factor"
+    },
+    "B": {
+      "name": "B Paper",
+      "min_credit": 600,
+      "min_tib_months": 12,
+      "max_nsf_90d": 5,
+      "min_avg_balance": 0.07,
+      "revenue_trend": "any",
+      "rate_range": "1.25 - 1.35 factor"
+    },
+    "C": {
+      "name": "C Paper",
+      "min_credit": 550,
+      "min_tib_months": 6,
+      "max_nsf_90d": 8,
+      "min_avg_balance": 0.05,
+      "revenue_trend": "any",
+      "rate_range": "1.35 - 1.50 factor"
+    }
+  },
+  "bank_statement_requirements": {
+    "light": {
+      "months": 3,
+      "description": "3 months bank statements"
+    },
+    "standard": {
+      "months": 4,
+      "description": "4 months bank statements"
+    },
+    "full": {
+      "months": 6,
+      "description": "6 months bank statements"
+    },
+    "extended": {
+      "months": 12,
+      "description": "12 months bank statements"
+    }
+  },
+  "document_requirements": {
+    "base_docs": [
+      "Application",
+      "Government ID (front/back)",
+      "Voided Check"
+    ],
+    "full_financial_package": [
+      "P&L (Year-to-Date)",
+      "P&L (Prior Year)",
+      "Balance Sheet (Current)",
+      "A/R Aging Report",
+      "A/P Aging Report",
+      "Debt Schedule",
+      "Business Tax Returns (2 years)"
+    ],
+    "situational_docs": {
+      "seasonal": [
+        "12 months bank statements",
+        "Prior year P&L by month",
+        "Explanation of seasonality"
+      ],
+      "declining_revenue": [
+        "12 months bank statements",
+        "A/R Aging Report",
+        "Explanation of decline + recovery plan"
+      ],
+      "low_mtd": [
+        "A/R Aging Report",
+        "Current month bank activity",
+        "Pending contracts/invoices"
+      ],
+      "high_risk_industry": [
+        "A/R Aging Report",
+        "12 months bank statements",
+        "Industry-specific licenses"
+      ],
+      "new_business": [
+        "Business plan",
+        "Owner resume",
+        "Personal tax returns (2 years)",
+        "Personal financial statement"
+      ],
+      "real_estate_component": [
+        "Lease agreement",
+        "Landlord contact info",
+        "Property photos"
+      ]
+    }
+  },
+  "industry_classifications": {
+    "high_scrutiny": [
+      "restaurant",
+      "construction",
+      "trucking",
+      "transportation",
+      "auto_repair",
+      "gas_station",
+      "retail",
+      "staffing",
+      "medical_practice",
+      "landscaping"
+    ],
+    "seasonal": [
+      "landscaping",
+      "pool_service",
+      "hvac",
+      "roofing",
+      "tax_preparation",
+      "retail",
+      "tourism",
+      "agriculture"
+    ]
+  }
+}
