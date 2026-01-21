@@ -1,5 +1,5 @@
 """
-MCA Pricing Calculator
+RBF Pricing Calculator
 
 Calculates factor rates, advance amounts, and terms based on letter grade.
 """
@@ -55,7 +55,7 @@ DEAL_TIERS = {
 
 @dataclass
 class PricingRecommendation:
-    """MCA pricing recommendation"""
+    """RBF pricing recommendation"""
     letter_grade: str
     recommended_factor: float
     factor_range: Tuple[float, float]
@@ -69,7 +69,7 @@ class PricingRecommendation:
 
 class PricingCalculator:
     """
-    Calculates MCA pricing based on letter grade.
+    Calculates RBF pricing based on letter grade.
     """
 
     def calculate(

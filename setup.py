@@ -1,15 +1,15 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="mca-pricing-toolkit",
+    name="rbf-pricing-toolkit",
     version="1.0.0",
     author="Silv MT Holdings",
-    description="MCA pricing toolkit - Factor rate recommendations, advance calculations, term suggestions, and deal tier classification",
-    url="https://github.com/silv-mt-holdings/mca-pricing-toolkit",
+    description="RBF pricing toolkit - Factor rate recommendations, advance calculations, term suggestions, and deal tier classification",
+    url="https://github.com/silv-mt-holdings/rbf-pricing-toolkit",
     packages=find_packages(exclude=["tests"]),
     python_requires=">=3.8",
     install_requires=[
-        "mca-scoring-toolkit @ git+https://github.com/silv-mt-holdings/mca-scoring-toolkit.git",
+        "rbf-scoring-toolkit @ git+https://github.com/silv-mt-holdings/rbf-scoring-toolkit.git",
     ],
     extras_require={"dev": ["pytest>=7.0.0"]},
     include_package_data=True,

@@ -1,6 +1,6 @@
-# mca-pricing-toolkit
+# rbf-pricing-toolkit
 
-MCA pricing toolkit - Factor rate recommendations, advance calculations, term suggestions, and deal tier classification.
+RBF pricing toolkit - Factor rate recommendations, advance calculations, term suggestions, and deal tier classification.
 
 ## Features
 
@@ -14,7 +14,7 @@ MCA pricing toolkit - Factor rate recommendations, advance calculations, term su
 ## Installation
 
 ```bash
-pip install git+https://github.com/silv-mt-holdings/mca-pricing-toolkit.git
+pip install git+https://github.com/silv-mt-holdings/rbf-pricing-toolkit.git
 ```
 
 ## Quick Start
