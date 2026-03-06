@@ -4,9 +4,14 @@ RBF Pricing Calculator
 Calculates factor rates, advance amounts, and terms based on letter grade.
 """
 
+from __future__ import annotations
+
 from dataclasses import dataclass
-from typing import Tuple, Optional
+from typing import TYPE_CHECKING, Tuple, Optional
 from decimal import Decimal
+
+if TYPE_CHECKING:
+    from pricing.industry_adjuster import IndustryAdjustment
 
 
 # Grade to factor rate mapping
@@ -65,6 +70,9 @@ class PricingRecommendation:
     deal_tier: str
     suggested_holdback_pct: float
     payment_structure: str
+    industry: Optional[str] = None
+    industry_tier: Optional[int] = None
+    industry_note: Optional[str] = None
 
 
 class PricingCalculator:
@@ -75,7 +83,8 @@ class PricingCalculator:
     def calculate(
         self,
         grade: str,
-        monthly_revenue: float
+        monthly_revenue: float,
+        industry: Optional[str] = None,
     ) -> PricingRecommendation:
         """
         Calculate pricing recommendation.
@@ -83,6 +92,9 @@ class PricingCalculator:
         Args:
             grade: Letter grade (A+ through F)
             monthly_revenue: Monthly true revenue
+            industry: Optional industry key (e.g. "restaurant", "medical_practice").
+                      When provided, applies factor_mod and advance cap from
+                      industry_risk_db via IndustryAdjuster.
 
         Returns:
             PricingRecommendation object
@@ -132,8 +144,34 @@ class PricingCalculator:
             term_months_range=term_range,
             deal_tier=deal_tier,
             suggested_holdback_pct=holdback_pct,
-            payment_structure=payment_structure
+            payment_structure=payment_structure,
         )
+
+    def calculate_with_industry(
+        self,
+        grade: str,
+        monthly_revenue: float,
+        industry: str,
+    ) -> tuple[PricingRecommendation, object]:
+        """
+        Convenience wrapper: calculate base pricing then apply industry adjustments.
+
+        Returns:
+            Tuple of (adjusted PricingRecommendation, IndustryAdjustment or None).
+        """
+        from pricing.industry_adjuster import IndustryAdjuster
+        base = self.calculate(grade, monthly_revenue)
+        adjuster = IndustryAdjuster()
+        adjusted, adj = adjuster.apply(base, industry)
+        if adj is not None:
+            from dataclasses import replace
+            adjusted = replace(
+                adjusted,
+                industry=adj.industry,
+                industry_tier=adj.tier,
+                industry_note=adj.note,
+            )
+        return adjusted, adj
 
     def _classify_deal_tier(self, advance_amount: float) -> str:
         """Classify deal tier by advance amount"""

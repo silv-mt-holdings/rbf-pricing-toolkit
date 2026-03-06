@@ -1,0 +1,294 @@
+{
+  "_comment": "Industry Risk Segmentation Database - 5 Tiers",
+  "_tiers": {
+    "1": "Preferred (Low Risk)",
+    "2": "Standard (Average Risk)",
+    "3": "Elevated (Above Average Risk)",
+    "4": "High Risk",
+    "5": "Specialty / Extreme Risk"
+  },
+  "industries": {
+    "medical_practice": {
+      "tier": 1,
+      "adjustment": 5,
+      "factor_mod": -0.03,
+      "note": "Recession-proof, stable AR"
+    },
+    "dental": {
+      "tier": 1,
+      "adjustment": 5,
+      "factor_mod": -0.03,
+      "note": "High margins, repeat customers"
+    },
+    "healthcare": {
+      "tier": 1,
+      "adjustment": 4,
+      "factor_mod": -0.02,
+      "note": "Essential services"
+    },
+    "veterinary": {
+      "tier": 1,
+      "adjustment": 4,
+      "factor_mod": -0.02,
+      "note": "Stable demand"
+    },
+    "legal_services": {
+      "tier": 1,
+      "adjustment": 3,
+      "factor_mod": -0.02,
+      "note": "Established cash flow"
+    },
+    "accounting": {
+      "tier": 1,
+      "adjustment": 3,
+      "factor_mod": -0.02,
+      "note": "Recurring revenue"
+    },
+    "professional_services": {
+      "tier": 1,
+      "adjustment": 3,
+      "factor_mod": -0.02,
+      "note": "Low overhead"
+    },
+    "it_services": {
+      "tier": 1,
+      "adjustment": 3,
+      "factor_mod": -0.02,
+      "note": "High margins"
+    },
+    "saas": {
+      "tier": 1,
+      "adjustment": 4,
+      "factor_mod": -0.02,
+      "note": "Recurring MRR"
+    },
+    "manufacturing": {
+      "tier": 2,
+      "adjustment": 0,
+      "factor_mod": 0.00,
+      "note": "Standard risk"
+    },
+    "wholesale": {
+      "tier": 2,
+      "adjustment": 0,
+      "factor_mod": 0.00,
+      "note": "Standard risk"
+    },
+    "ecommerce": {
+      "tier": 2,
+      "adjustment": 0,
+      "factor_mod": 0.00,
+      "note": "Verify processor"
+    },
+    "general_contractor": {
+      "tier": 2,
+      "adjustment": -2,
+      "factor_mod": 0.02,
+      "note": "Project-based CF"
+    },
+    "hvac": {
+      "tier": 2,
+      "adjustment": 0,
+      "factor_mod": 0.00,
+      "note": "Seasonal adjustment"
+    },
+    "plumbing": {
+      "tier": 2,
+      "adjustment": 0,
+      "factor_mod": 0.00,
+      "note": "Service-based"
+    },
+    "electrical": {
+      "tier": 2,
+      "adjustment": 0,
+      "factor_mod": 0.00,
+      "note": "Service-based"
+    },
+    "auto_body": {
+      "tier": 2,
+      "adjustment": -2,
+      "factor_mod": 0.02,
+      "note": "Insurance dependent"
+    },
+    "salon_spa": {
+      "tier": 2,
+      "adjustment": 0,
+      "factor_mod": 0.00,
+      "note": "Cash + card mix"
+    },
+    "restaurant": {
+      "tier": 3,
+      "adjustment": -8,
+      "factor_mod": 0.08,
+      "note": "60% fail in 5 years"
+    },
+    "bar_nightclub": {
+      "tier": 3,
+      "adjustment": -10,
+      "factor_mod": 0.10,
+      "note": "Cash intensive, seasonal"
+    },
+    "retail": {
+      "tier": 3,
+      "adjustment": -6,
+      "factor_mod": 0.05,
+      "note": "E-commerce pressure"
+    },
+    "convenience_store": {
+      "tier": 3,
+      "adjustment": -5,
+      "factor_mod": 0.05,
+      "note": "Cash intensive"
+    },
+    "gas_station": {
+      "tier": 3,
+      "adjustment": -6,
+      "factor_mod": 0.06,
+      "note": "Thin margins, cash"
+    },
+    "hotel_motel": {
+      "tier": 3,
+      "adjustment": -6,
+      "factor_mod": 0.05,
+      "note": "Seasonal, high fixed costs"
+    },
+    "staffing": {
+      "tier": 3,
+      "adjustment": -5,
+      "factor_mod": 0.05,
+      "note": "AR dependent, payroll"
+    },
+    "landscaping": {
+      "tier": 3,
+      "adjustment": -4,
+      "factor_mod": 0.04,
+      "note": "Seasonal"
+    },
+    "moving_company": {
+      "tier": 3,
+      "adjustment": -5,
+      "factor_mod": 0.05,
+      "note": "Liability, seasonal"
+    },
+    "dry_cleaner": {
+      "tier": 3,
+      "adjustment": -4,
+      "factor_mod": 0.04,
+      "note": "Declining industry"
+    },
+    "trucking": {
+      "tier": 4,
+      "adjustment": -12,
+      "factor_mod": 0.12,
+      "note": "Fuel costs, broker AR"
+    },
+    "transportation": {
+      "tier": 4,
+      "adjustment": -12,
+      "factor_mod": 0.12,
+      "note": "High liability"
+    },
+    "construction": {
+      "tier": 4,
+      "adjustment": -12,
+      "factor_mod": 0.12,
+      "note": "25% fail in 1 year"
+    },
+    "used_cars": {
+      "tier": 4,
+      "adjustment": -15,
+      "factor_mod": 0.15,
+      "note": "Floor plan dependent"
+    },
+    "auto_dealer": {
+      "tier": 4,
+      "adjustment": -15,
+      "factor_mod": 0.15,
+      "note": "Inventory risk"
+    },
+    "jewelry": {
+      "tier": 4,
+      "adjustment": -10,
+      "factor_mod": 0.10,
+      "note": "Theft, inventory"
+    },
+    "travel_agency": {
+      "tier": 4,
+      "adjustment": -10,
+      "factor_mod": 0.10,
+      "note": "Volatile demand"
+    },
+    "taxi_limo": {
+      "tier": 4,
+      "adjustment": -8,
+      "factor_mod": 0.08,
+      "note": "Rideshare competition"
+    },
+    "towing": {
+      "tier": 4,
+      "adjustment": -6,
+      "factor_mod": 0.06,
+      "note": "Equipment dependent"
+    },
+    "gambling": {
+      "tier": 5,
+      "adjustment": -25,
+      "factor_mod": 0.20,
+      "note": "Specialty - licensing required"
+    },
+    "cannabis": {
+      "tier": 5,
+      "adjustment": -50,
+      "factor_mod": 0.25,
+      "note": "Specialty - federal banking limits"
+    },
+    "cbd": {
+      "tier": 5,
+      "adjustment": -20,
+      "factor_mod": 0.15,
+      "note": "Specialty - verify compliance"
+    },
+    "adult_entertainment": {
+      "tier": 5,
+      "adjustment": -25,
+      "factor_mod": 0.20,
+      "note": "Specialty - cash intensive"
+    },
+    "firearms": {
+      "tier": 5,
+      "adjustment": -20,
+      "factor_mod": 0.15,
+      "note": "Specialty - licensing required"
+    },
+    "bail_bonds": {
+      "tier": 5,
+      "adjustment": -20,
+      "factor_mod": 0.18,
+      "note": "Specialty - irregular cash flow"
+    },
+    "check_cashing": {
+      "tier": 5,
+      "adjustment": -30,
+      "factor_mod": 0.22,
+      "note": "Specialty - BSA/AML scrutiny"
+    },
+    "pawn_shop": {
+      "tier": 5,
+      "adjustment": -18,
+      "factor_mod": 0.15,
+      "note": "Specialty - inventory/theft risk"
+    },
+    "crypto": {
+      "tier": 5,
+      "adjustment": -30,
+      "factor_mod": 0.25,
+      "note": "Specialty - volatility"
+    },
+    "mlm": {
+      "tier": 5,
+      "adjustment": -35,
+      "factor_mod": 0.25,
+      "note": "Specialty - income instability"
+    }
+  }
+}
