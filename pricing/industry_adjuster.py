@@ -1,30 +1,43 @@
 """
 Industry Risk Adjuster
 
-Loads industry_risk_db from rbf-risk-engine and applies per-industry
-factor_mod and tier constraints to a base PricingRecommendation.
+Loads industry risk data — SQLite first (lending_intelligence.db), JSON fallback.
+Applies per-industry factor_mod and tier constraints to a base PricingRecommendation.
 """
 
 from __future__ import annotations
 
 import json
 import os
+import sqlite3
 from dataclasses import dataclass, replace
 from typing import Optional
 
 from pricing.factor_calculator import PricingRecommendation
 
 
-# Path to industry_risk_db — supports local dev (sibling clone) and
-# installed environments where the file is bundled under data/.
 _HERE = os.path.dirname(__file__)
+
+# SQLite DB search paths (lending-intelligence-db)
+_SQLITE_DB_SEARCH = [
+    os.path.join(_HERE, "..", "..", "lending-intelligence-db", "data", "lending_intelligence.db"),
+    os.path.join(_HERE, "..", "data", "lending_intelligence.db"),
+]
+
+# JSON fallback search paths
 _INDUSTRY_DB_SEARCH = [
-    # Bundled copy in this repo
     os.path.join(_HERE, "..", "data", "industry_risk_db.json"),
-    # Sibling clone of rbf-risk-engine
     os.path.join(_HERE, "..", "..", "-RBF-Risk-Engine", "data", "industry_risk_db.json"),
     os.path.join(_HERE, "..", "..", "rbf-risk-engine", "data", "industry_risk_db.json"),
 ]
+
+
+def _find_sqlite_db() -> Optional[str]:
+    for path in _SQLITE_DB_SEARCH:
+        resolved = os.path.normpath(path)
+        if os.path.exists(resolved):
+            return resolved
+    return None
 
 
 def _load_industry_db() -> dict:
@@ -38,6 +51,16 @@ def _load_industry_db() -> dict:
         "Copy it to data/industry_risk_db.json or place the rbf-risk-engine "
         "repo as a sibling directory."
     )
+
+
+def get_lending_db_conn() -> Optional[sqlite3.Connection]:
+    """Return a connection to lending_intelligence.db, or None if not found."""
+    path = _find_sqlite_db()
+    if path:
+        conn = sqlite3.connect(path)
+        conn.row_factory = sqlite3.Row
+        return conn
+    return None
 
 
 @dataclass
@@ -74,6 +97,8 @@ class IndustryAdjuster:
     """
     Applies industry risk data to a base PricingRecommendation.
 
+    Queries lending_intelligence.db (SQLite) first; falls back to JSON.
+
     Usage::
 
         adjuster = IndustryAdjuster()
@@ -81,12 +106,51 @@ class IndustryAdjuster:
     """
 
     def __init__(self) -> None:
-        db = _load_industry_db()
-        self._industries: dict = db["industries"]
+        self._conn = get_lending_db_conn()
+        if self._conn is None:
+            # JSON fallback
+            db = _load_industry_db()
+            self._industries: dict = db["industries"]
+        else:
+            self._industries = {}
+
+    def _lookup_sqlite(self, key: str) -> Optional[IndustryAdjustment]:
+        cur = self._conn.execute(
+            "SELECT industry, tier, adjustment, factor_mod, note FROM industry_risk WHERE industry = ?",
+            (key,)
+        )
+        row = cur.fetchone()
+        if row is None:
+            # Try FTS fuzzy match
+            cur = self._conn.execute(
+                "SELECT source FROM fts_industry WHERE fts_industry MATCH ? LIMIT 1",
+                (key,)
+            )
+            fts = cur.fetchone()
+            if fts and fts["source"] == "industry_risk":
+                cur = self._conn.execute(
+                    "SELECT industry, tier, adjustment, factor_mod, note FROM industry_risk WHERE industry = ?",
+                    (key,)
+                )
+                row = cur.fetchone()
+        if row is None:
+            return None
+        tier = row["tier"]
+        return IndustryAdjustment(
+            industry=row["industry"],
+            tier=tier,
+            tier_label=_TIER_LABELS.get(tier, "Unknown"),
+            factor_mod=row["factor_mod"],
+            score_adjustment=row["adjustment"],
+            note=row["note"] or "",
+        )
 
     def lookup(self, industry: str) -> Optional[IndustryAdjustment]:
         """Return IndustryAdjustment for a given industry key, or None if unknown."""
         key = industry.lower().replace(" ", "_").replace("-", "_")
+        if self._conn is not None:
+            return self._lookup_sqlite(key)
+        # JSON fallback
         entry = self._industries.get(key)
         if entry is None:
             return None
@@ -148,6 +212,12 @@ class IndustryAdjuster:
 
     def list_industries(self, tier: Optional[int] = None) -> list[str]:
         """Return all industry keys, optionally filtered by tier."""
+        if self._conn is not None:
+            if tier is None:
+                cur = self._conn.execute("SELECT industry FROM industry_risk ORDER BY industry")
+            else:
+                cur = self._conn.execute("SELECT industry FROM industry_risk WHERE tier = ? ORDER BY industry", (tier,))
+            return [row[0] for row in cur.fetchall()]
         if tier is None:
             return list(self._industries.keys())
         return [k for k, v in self._industries.items() if v["tier"] == tier]
